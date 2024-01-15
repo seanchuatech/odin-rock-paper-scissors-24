@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROCK PAPER AND SCISSORS</title>
+</head>
+<body>
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+
+        const choice = ['ROCK', 'PAPER', 'SCISSORS'];
+        let getComputerChoice = function(choice) {
+            let returnChoice = Math.floor(Math.random() * choice.length);
+            return choice[returnChoice];
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            playerSelection = playerSelection.toUpperCase();
+            computerSelection = computerSelection.toUpperCase();
+
+            if (playerSelection == computerSelection) {
+                console.log(`(It's a tie!) Player Selected: ${playerSelection} Computer Selected: ${computerSelection}`);
+            } 
+
+            if (
+                (playerSelection == 'ROCK' && computerSelection == 'SCISSORS') ||
+                (playerSelection == 'PAPER' && computerSelection == 'ROCK') ||
+                (playerSelection == 'SCISSORS' && computerSelection == 'PAPER')
+            ) {
+                console.log(`(Player wins!) Player Selected: ${playerSelection} Computer Selected: ${computerSelection}`);
+                return playerScore++;
+            }
+
+            if (
+                (computerSelection == 'ROCK' && playerSelection == 'SCISSORS') ||
+                (computerSelection == 'PAPER' && playerSelection == 'ROCK') ||
+                (computerSelection == 'SCISSORS' && playerSelection == 'PAPER')
+            ) {
+                console.log(`(Computer wins!) Player Selected: ${playerSelection} Computer Selected: ${computerSelection}`);
+                return computerScore++;
+            }
+
+        }
+
+        function game() {
+            const playerSelection = prompt('Enter your selection', 'ROCK');
+            const computerSelection = getComputerChoice(choice);
+
+            
+            playRound(playerSelection, computerSelection);
+            console.log(`Player Score: ${playerScore}`);
+            console.log(`Computer Score: ${computerScore}`);
+            
+        }
+
+        
+        do {
+            game();
+        } while (playerScore < 3 && computerScore < 3);
+
+        if (playerScore === 3) {
+            console.log('Player Wins!')
+        }
+
+        if (computerScore === 3) {
+            console.log('Computer Wins!')
+        }
+
+        
+    </script>
+</body>
+</html>
