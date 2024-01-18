@@ -6,9 +6,19 @@
     <title>ROCK PAPER AND SCISSORS</title>
 </head>
 <body>
+    
+    <div class="container">
+        <button class="playerSelection" value="rock">ROCK</button>
+        <button class="playerSelection" value="paper">PAPER</button>
+        <button class="playerSelection" value="scissors">SCISSORS</button>
+    </div>
     <script>
         let playerScore = 0;
         let computerScore = 0;
+
+        const container = document.querySelector('.container');
+        const resultSection = document.createElement('div');
+        resultSection.className = 'resultSection';
 
         const choice = ['ROCK', 'PAPER', 'SCISSORS'];
         let getComputerChoice = function(choice) {
@@ -16,12 +26,21 @@
             return choice[returnChoice];
         }
 
+        const playerSelectionBtn = document.querySelectorAll(".playerSelection");
+
+        for (const playerSelection of playerSelectionBtn)
+        playerSelection.addEventListener("click", (event) => {
+                
+            playRound(playerSelection.value, getComputerChoice(choice));
+
+        });
+
         function playRound(playerSelection, computerSelection) {
             playerSelection = playerSelection.toUpperCase();
             computerSelection = computerSelection.toUpperCase();
 
             if (playerSelection == computerSelection) {
-                console.log(`(It's a tie!) Player Selected: ${playerSelection} Computer Selected: ${computerSelection}`);
+                console.log(`It's a tie! Score is ${playerScore} - ${computerScore}`);
             } 
 
             if (
@@ -29,8 +48,8 @@
                 (playerSelection == 'PAPER' && computerSelection == 'ROCK') ||
                 (playerSelection == 'SCISSORS' && computerSelection == 'PAPER')
             ) {
-                console.log(`(Player wins!) Player Selected: ${playerSelection} Computer Selected: ${computerSelection}`);
-                return playerScore++;
+                playerScore++;
+                resultSection.textContent = `Player wins! Score is ${playerScore} - ${computerScore}`;
             }
 
             if (
@@ -38,36 +57,22 @@
                 (computerSelection == 'PAPER' && playerSelection == 'ROCK') ||
                 (computerSelection == 'SCISSORS' && playerSelection == 'PAPER')
             ) {
-                console.log(`(Computer wins!) Player Selected: ${playerSelection} Computer Selected: ${computerSelection}`);
-                return computerScore++;
+                computerScore++;
+                resultSection.textContent = `Computer wins! Score is ${playerScore} - ${computerScore}`;
+            }
+            container.appendChild(resultSection);
+            if (playerScore === 3) {
+                playerSelectionBtn.forEach(button => {
+                    button.disabled = true;
+                });
             }
 
+            if (computerScore === 3) {
+                playerSelectionBtn.forEach(button => {
+                    button.disabled = true;
+                });
+            }
         }
-
-        function game() {
-            const playerSelection = prompt('Enter your selection', 'ROCK');
-            const computerSelection = getComputerChoice(choice);
-
-            
-            playRound(playerSelection, computerSelection);
-            console.log(`Player Score: ${playerScore}`);
-            console.log(`Computer Score: ${computerScore}`);
-            
-        }
-
-        
-        do {
-            game();
-        } while (playerScore < 3 && computerScore < 3);
-
-        if (playerScore === 3) {
-            console.log('Player Wins!')
-        }
-
-        if (computerScore === 3) {
-            console.log('Computer Wins!')
-        }
-
         
     </script>
 </body>
